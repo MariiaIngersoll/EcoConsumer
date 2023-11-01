@@ -3,7 +3,7 @@ from flask import request, make_response, session, abort
 from flask_restful import Resource
 
 from config import app, db, api
-from models import User
+from models import User, Manufacturer, Product, Review
 
 from flask_restful import Resource
 from config import api, db
@@ -42,7 +42,7 @@ class Signup(Resource):
             return response
         
 
-api.add_resource(Signup, "/api/signup/")
+api.add_resource(Signup, "/api/signup")
 
 class Login(Resource):
     def post(self):
@@ -58,7 +58,7 @@ class Login(Resource):
                 return response
         return {'Incorrect username or password'}, 401
     
-api.add_resource(Login, '/api/login/')
+api.add_resource(Login, '/api/login')
 
 class CheckSession(Resource):
     def get(self):
@@ -69,7 +69,7 @@ class CheckSession(Resource):
         except:
             abort(401, "Please log in")
 
-api.add_resource(CheckSession, '/api/check_session/')
+api.add_resource(CheckSession, '/api/check_session')
 
 class Logout(Resource):
     def delete(self):
@@ -77,11 +77,37 @@ class Logout(Resource):
         response = make_response('', 204)
         return response
     
-api.add_resource(Logout, '/api/logout/')
+api.add_resource(Logout, '/api/logout')
 
-class Users(Resource):
+class UsersResource(Resource):
     def get(self):
         users = [user.to_dict() for user in User.query.all()]
         return users, 200
     
-api.add_resource(Users, '/api/users/')
+api.add_resource(UsersResource, '/api/users')
+
+class ManufacrurerResource(Resource):
+    def get(self):
+        manufacturers = Manufacturer.query.all()
+        return [manufacturer.to_dict() for manufacturer in manufacturers], 200
+    
+api.add_resource(ManufacrurerResource, "/api/manufacturers")
+
+class ProductResource(Resource):
+    def get(self):
+        products = Product.query.all()
+        return [product.to_dict() for product in products], 200
+
+api.add_resource(ProductResource, "/api/products")
+
+class ReviewsResource(Resource):
+    def get(self):
+        reviews = Review.query.all()
+        return [review.to_dict() for review in reviews], 200
+
+api.add_resource(ReviewsResource, "/api/reviews")
+
+
+if __name__ == '__main__':
+    app.run(port=5555, debug=True)
+    
