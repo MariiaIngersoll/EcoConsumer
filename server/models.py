@@ -20,6 +20,18 @@ class Review(db.Model, SerializerMixin):
 
     def __repr__(self):
         return f'<Review content: {self.content}>'
+    
+    serialize_rules = (
+        "-user_id",
+        "-product_id",
+        "-product.reviews",
+        "-product.users",
+        "-product.manufacturer",
+        "-product.description",
+        "-product.image",
+        "-user",
+
+    )
 
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
@@ -56,6 +68,8 @@ class User(db.Model, SerializerMixin):
 
     serialize_rules = (
         '-_password_hash',
+        '-reviews',
+        '-products',
     )
 
 class Product(db.Model, SerializerMixin):
@@ -66,6 +80,7 @@ class Product(db.Model, SerializerMixin):
     description = db.Column(db.String)
     ecoFriendlyFeatures = db.Column(db.String)
     category = db.Column(db.String)
+    image = db.Column(db.String)
 
     manufacturer_id = db.Column(db.Integer, db.ForeignKey('manufacturers.id'))
     manufacturer = db.relationship('Manufacturer', back_populates='products')
@@ -75,6 +90,17 @@ class Product(db.Model, SerializerMixin):
 
     def __repr__(self):
         return f'<Product name is {self.name}'
+    
+    serialize_rules = (
+        "-reviews",
+        "-users",
+        "-manufacturer.image",
+        "-manufacturer.products",
+        "-manufacturer.description",
+        "-manufacturer.id",
+        "-id",
+        "-manufacturer_id",
+    )
 
 class Manufacturer(db.Model, SerializerMixin):
     __tablename__ = 'manufacturers'
@@ -82,5 +108,17 @@ class Manufacturer(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
     description = db.Column(db.String)
+    image = db.Column(db.String)
 
     products = db.relationship('Product', back_populates='manufacturer')
+
+    serialize_rules = (
+        "-products.reviews",
+        "-products.manufacturer",
+        "-products.manufacturer_id",
+        "-products.users",
+        "-products.id",
+    )
+
+    def __repr__(self):
+        return f'<Manufacturer name is {self.name}'
