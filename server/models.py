@@ -67,8 +67,12 @@ class User(db.Model, SerializerMixin):
         return f'<User username is {self.username}>'
 
     serialize_rules = (
+        '-image',
         '-_password_hash',
-        '-reviews',
+        '-reviews.product.ecoFriendlyFeatures',
+        '-reviews.product.category',
+        '-reviews.createdAt',
+        '-reviews.id',
         '-products',
     )
 
@@ -92,7 +96,8 @@ class Product(db.Model, SerializerMixin):
         return f'<Product name is {self.name}'
     
     serialize_rules = (
-        "-reviews",
+        "-reviews.product",
+        "-reviews.createdAt",
         "-users",
         "-manufacturer.image",
         "-manufacturer.products",
@@ -100,6 +105,7 @@ class Product(db.Model, SerializerMixin):
         "-manufacturer.id",
         "-id",
         "-manufacturer_id",
+        "-image",
     )
 
 class Manufacturer(db.Model, SerializerMixin):

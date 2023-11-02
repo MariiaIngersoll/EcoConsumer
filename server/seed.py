@@ -374,15 +374,179 @@ if __name__ == '__main__':
 
 
         # Create Reviews
-        for _ in range(30):
-            review = Review(
-                rating=rc([1, 2, 3, 4, 5]),
-                content=fake.paragraph(),
-                user=rc(users),
-                product=rc(products)
-            )
-            reviews.append(review)
+        review_content_list = [
+            "I love how effective this cleaner is in my kitchen, but I also appreciate the eco-friendly packaging. It's a winner!",
+            "I found the lemon chamomile scent to be overpowering, and the cleaner didn't perform as well as I expected.",
+            "This is a fantastic all-purpose cleaner. The fact that it's eco-friendly is a huge bonus.",
+            "High-quality bathroom tissue that's gentle on the environment. It's a staple in our household!!!!",
+            "Would not recommend this product. Terrible quality.",
+            "I'm a fan of this hand wash! It's gentle on my hands, and the fact that the bottle is recyclable makes me feel good about using it.",
+            "The scent of lavender and mint was too strong for my liking. I found it overpowering.",
+            "The peppermint flavor is refreshing, and I love that this toothpaste is cruelty-free and doesn't contain artificial additives.",
+            "The texture of this toothpaste is gritty, which I found uncomfortable to use.",
+            "I absolutely love this tee! It's not only comfortable but also eco-friendly. I appreciate that the brand is carbon neutral and supports high-impact carbon projects.",
+            "The tee is comfortable, but the sizing is a bit off. It runs larger than expected.",
+            "These sneakers are a game-changer. They're super comfortable, and the sustainable materials used, like eucalyptus tree fiber and sugarcane-based green EVA, make me feel good about my choice.",
+            "I had high hopes for these sneakers, but they didn't provide the support I needed for running.",
+            "I love the versatility of this 2-in-1 shampoo and body wash. It's gentle and tear-free, making it perfect for my little one, but the whole family enjoys using it. The absence of harmful chemicals like parabens, phthalates, and synthetic fragrances is a huge plus.",
+            "This product is fantastic for sensitive skin. It leaves hair and skin soft and clean without any irritation. I appreciate that it's recyclable, supporting environmental responsibility.",
+            "While this shampoo + body wash is great for sensitive skin, I found the scent to be too mild. I prefer products with a more refreshing fragrance.",
+            "I love this organic pumpkin spice latte powder! It's the perfect way to enjoy the cozy flavors of fall. I appreciate that it's made with real pumpkin and Canadian maple, making it a healthier choice for my morning pick-me-up. Plus, it's vegan and supports a women-owned business",
+            "This pumpkin spice latte powder is a game-changer. I can enjoy the classic PSL flavors without the guilt, thanks to its organic and vegan ingredients. It's the perfect blend of warmth and velvety goodness",
+            "While I appreciate the eco-friendly aspects of this product, I found the taste to be a bit lacking. It's not as rich and flavorful as I expected.",
 
-        db.session.add_all(reviews)
+        ]
 
+        user1 = User.query.filter(User.id == 1).first()
+        user2 = User.query.filter(User.id == 2).first()
+        user3 = User.query.filter(User.id == 3).first()
+        user4 = User.query.filter(User.id == 4).first()
+        user5 = User.query.filter(User.id == 5).first()
+        user6 = User.query.filter(User.id == 6).first()
+        user7 = User.query.filter(User.id == 7).first()
+        user8 = User.query.filter(User.id == 8).first()
+        user9 = User.query.filter(User.id == 9).first()
+        user10 = User.query.filter(User.id == 10).first()
+
+        product1 = Product.query.filter(Product.id == 1).first()
+        product2 = Product.query.filter(Product.id == 2).first()
+        product3 = Product.query.filter(Product.id == 3).first()
+        product4 = Product.query.filter(Product.id == 4).first()
+        product5 = Product.query.filter(Product.id == 5).first()
+        product6 = Product.query.filter(Product.id == 6).first()
+        product7 = Product.query.filter(Product.id == 7).first()
+        product8 = Product.query.filter(Product.id == 8).first()
+        product9 = Product.query.filter(Product.id == 9).first()
+        product10 = Product.query.filter(Product.id == 10).first()
+        product11 = Product.query.filter(Product.id == 11).first()
+        product12 = Product.query.filter(Product.id ==12).first()
+        product13 = Product.query.filter(Product.id == 13).first()
+        product25 = Product.query.filter(Product.id == 25).first()
+        product26 = Product.query.filter(Product.id == 26).first()
+
+
+
+        review = Review(
+            rating=5,
+            content=review_content_list[0],
+            product_id=product1.id,
+        )
+
+        reviewUser2 = Review(
+            rating=3,
+            content=review_content_list[1],
+            product_id=product1.id,
+        )
+
+        reviewUser7 = Review(
+            rating=4,
+            content=review_content_list[2],
+            product_id=product1.id,
+        )
+
+        reviewBathroomTissue = Review(
+            rating=5,
+            content=review_content_list[3],
+            product_id=product2.id,
+        )
+
+        reviewBathroomTissue2 = Review(
+            rating=1,
+            content=review_content_list[4],
+            product_id=product2.id,
+        )
+
+        reviewHandWash1 = Review(
+            rating = 5,
+            content=review_content_list[5],
+            product_id=product3.id,
+        )
+
+        reviewHandWash2 = Review(
+            rating = 1,
+            content=review_content_list[6],
+            product_id=product3.id,
+        )
+
+        reviewToothpase1 = Review(
+            rating = 5,
+            content=review_content_list[7],
+            product_id=product5.id,
+        )
+
+        reviewToothpase2 = Review(
+            rating = 2,
+            content=review_content_list[8],
+            product_id=product5.id,
+        )
+
+        reviewAnytimeTea1 = Review(
+            rating = 5,
+            content=review_content_list[9],
+            product_id=product9.id,
+        )
+
+        reviewAnytimeTea2 = Review(
+            rating = 3,
+            content=review_content_list[10],
+            product_id=product9.id,
+        )
+
+        reviewRunners1 = Review(
+            rating = 5,
+            content=review_content_list[11],
+            product_id=product10.id,
+        )
+
+        reviewRunners2 = Review(
+            rating = 4,
+            content=review_content_list[12],
+            product_id=product10.id,
+        )
+
+        reviewSensetiveShampoo1 = Review(
+            rating = 4,
+            content=review_content_list[13],
+            product_id=product25.id,
+        )
+
+        reviewSensetiveShampoo2 = Review(
+            rating = 4,
+            content=review_content_list[14],
+            product_id=product25.id,
+        )
+
+        reviewSensetiveShampoo3 = Review(
+            rating = 2,
+            content=review_content_list[15],
+            product_id=product25.id,
+        )
+        
+        reviewPumpkinLatte1 = Review(
+            rating = 5,
+            content=review_content_list[16],
+            product_id=product26.id,
+        )
+
+        reviewPumpkinLatte2 = Review(
+            rating = 2,
+            content=review_content_list[17],
+            product_id=product26.id,
+        )
+        reviewPumpkinLatte3 = Review(
+            rating = 2,
+            content=review_content_list[18],
+            product_id=product26.id,
+        )
+
+        
+        
+
+        user1.reviews.extend([review, reviewBathroomTissue, reviewAnytimeTea2])
+        user2.reviews.extend([reviewAnytimeTea1, reviewUser2, reviewHandWash2, reviewSensetiveShampoo3])
+        user7.reviews.extend([reviewUser7, reviewBathroomTissue2,reviewPumpkinLatte1])
+        user3.reviews.extend([reviewHandWash1,reviewToothpase2, reviewSensetiveShampoo2])
+        user4.reviews.extend([reviewToothpase1,reviewSensetiveShampoo1,reviewPumpkinLatte2])
+        user6.reviews.extend([reviewRunners1,reviewPumpkinLatte3])
+        user5.reviews.append(reviewRunners2)
         db.session.commit()
