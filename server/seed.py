@@ -137,7 +137,7 @@ if __name__ == '__main__':
                 "description": "Dr. Bronner's Sal Suds Liquid Cleaner is not a soap but instead is a concentrated hard-surface all-purpose cleaner. Perfect for general household cleaning (dishes, floors, laundry, etc.), it cleans and rinses with exceptional power, yet it is mild and gentle on the skin.",
                 "ecoFriendlyFeatures": " It is made with plant-based surfactants and natural fir needle and spruce essential oils (no cheap, harsh pine stump oil), without any synthetic dyes or fragrances.",
                 "category": "Household Essentials and Cleaning Supplies",
-                "image": "https://www.drbronner.com/cdn/shop/files/US-SalSuds-16oz_1800x1800.jpg?v=1688759894",
+                "image": "https://integritysupply.com/media/catalog/product/cache/b504be9c31faebea5780dca9446f632d/1/0/1006002_a.eps_high_bennbvfcotrqpsex_wejlxxrxlunmyc9a.jpg",
                 "manufacturer_id": 2,
             },
             {
@@ -145,7 +145,7 @@ if __name__ == '__main__':
                 "description": "Dr. Bronner’s All-One Peppermint Toothpaste has a bold peppermint flavor from the organic peppermint oil and the organic menthol crystals that stimulates mouth and gums with a cool, crisp sensation.",
                 "ecoFriendlyFeatures": "Vegan & cruelty-free, with no artificial colors or flavors, carrageenan, preservatives, synthetic sweeteners or detergent foaming agents—none! ",
                 "category": "Personal Care",
-                "image": "https://www.drbronner.com/cdn/shop/products/US-Toothpaste-Tube-5oz-Peppermint-600_1800x1800.jpg?v=1612301187",
+                "image": "https://images.grove.co/upload/f_auto,fl_progressive,h_1160,ar_1:1,c_pad,b_white/v1482322297/exk2kxragowuuawggfxo.png",
                 "manufacturer_id": 2,
             },
             {

@@ -105,7 +105,7 @@ class Product(db.Model, SerializerMixin):
         "-manufacturer.id",
         "-id",
         "-manufacturer_id",
-        "-image",
+        
     )
 
 class Manufacturer(db.Model, SerializerMixin):
