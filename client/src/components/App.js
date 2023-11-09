@@ -4,6 +4,7 @@ import Authorization from "./Authorization";
 import AllProducts from "./AllProducts";
 import Navigation from "./Navigation";
 import Home from "./Home";
+import AllCompanies from "./AllCompanies";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route path="/" element={<Home />}></Route>
           <Route path="/signup" element={<Authorization />}></Route>
           <Route path="/products" element={<AllProducts />}></Route>
+          <Route path="/companies" element={<AllCompanies />}></Route>
         </Routes>
     </>
   )
