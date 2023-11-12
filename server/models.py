@@ -103,7 +103,6 @@ class Product(db.Model, SerializerMixin):
         "-manufacturer.products",
         "-manufacturer.description",
         "-manufacturer.id",
-        "-id",
         "-manufacturer_id",
         
     )

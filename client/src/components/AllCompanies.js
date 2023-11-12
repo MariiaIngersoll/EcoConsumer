@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setCompanies} from "../redux_store/CompaniesSlice";
-import SingleCompanyPage from "./SingleCompanyPage";
+import { useNavigate } from "react-router-dom";
 
 
 function AllCompanies() {
   const dispatch = useDispatch();
   const companies = useSelector((state) => state.companies.companies);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("http://127.0.0.1:5555/api/manufacturers")
@@ -16,19 +17,24 @@ function AllCompanies() {
       });
   }, [dispatch]);
 
-  const companiesArray = companies.map((company) => (
-    <SingleCompanyPage company={company} key={company.id} />
-  ));
-
-  console.log(companiesArray)
+  const handleCompanyClick = (companyId) => {
+    navigate(`/companies/${companyId}`);
+  };
 
   return (
-    <>
-      <div className="companies-container">
-        {companiesArray}
-      </div>
-    </>
+    <div className="companies-container">
+      {companies.map((company) => (
+        <div
+          className="single-company"
+          key={company.id}
+          onClick={() => handleCompanyClick(company.id)}
+        >
+        <img src={company.image}></img>
+        <h1>{company.name}</h1>
+        </div>
+      ))}
+    </div>
   );
-}
-
-export default AllCompanies;
+  }
+  
+  export default AllCompanies;

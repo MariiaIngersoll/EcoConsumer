@@ -86,19 +86,43 @@ class UsersResource(Resource):
     
 api.add_resource(UsersResource, '/api/users')
 
-class ManufacrurerResource(Resource):
+class ManufacturersResource(Resource):
     def get(self):
         manufacturers = Manufacturer.query.all()
         return [manufacturer.to_dict() for manufacturer in manufacturers], 200
     
-api.add_resource(ManufacrurerResource, "/api/manufacturers")
+api.add_resource(ManufacturersResource, "/api/manufacturers")
 
-class ProductResource(Resource):
+class ManufacrurerResource(Resource):
+    def get(self, manuf_id):
+        manuf = Manufacturer.query.filter_by(id = manuf_id).first()
+
+        response = make_response(
+            manuf.to_dict(),
+            200
+        )
+        return response
+    
+api.add_resource(ManufacrurerResource, "/api/manufacturers/<int:manuf_id>")
+
+class ProductsResource(Resource):
     def get(self):
         products = Product.query.all()
         return [product.to_dict() for product in products], 200
 
-api.add_resource(ProductResource, "/api/products")
+api.add_resource(ProductsResource, "/api/products")
+
+class ProductResource(Resource):
+    def get(self, product_id):
+        product = Product.query.filter_by(id = product_id).first()
+
+        response = make_response(
+            product.to_dict(),
+            200
+        )
+        return response
+    
+api.add_resource(ProductResource, "/api/products/<int:product_id>")
 
 class ReviewsResource(Resource):
     def get(self):

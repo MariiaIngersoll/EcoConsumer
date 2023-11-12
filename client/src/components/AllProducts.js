@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import SingleProductPage from "./SingleProductPage";
 import { useSelector, useDispatch } from "react-redux";
 import { setProducts } from "../redux_store/ProductsSlice";
+import { useNavigate } from "react-router-dom";
 
 function AllProducts() {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products.products);
+  const navigate = useNavigate()
 
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("All"); 
@@ -53,8 +55,19 @@ function AllProducts() {
     setFilteredProducts(filtered);
   };
 
+  const handleProductClick = (productId) => {
+      navigate(`/products/${productId}`);
+  }
+  
   const productsArray = filteredProducts.map((product) => (
-    <SingleProductPage product={product} key={product.id} />
+      <div
+        className="single-product"
+        key={product.id}
+        onClick={() => handleProductClick(product.id)}
+      >
+      <img src={product.image}></img>
+      <h1>{product.name}</h1>
+      </div>
   ));
 
   const categories = Array.from(
