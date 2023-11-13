@@ -6,6 +6,8 @@ function AddReviewButton() {
     const [content, setContent] = useState("")
     const [reviews, setReviews] = useState([])
     const [rating, setRating] = useState(0);
+    const [user_id, setUserId] = useState(0);
+    const [product_id, setProductId] = useState(0);
 
     useEffect(()=> {
         fetch("http://127.0.0.1:5555/api/reviews")
@@ -25,32 +27,47 @@ function AddReviewButton() {
         setRating(e.target.value);
     };
 
-    const handleAddReview = (e) => {
+    const handleAddReview = (e) => { 
         e.preventDefault();
         const reviewData = {
             content: content,
             rating: rating,
+            user_id: user_id,
+            product_id: product_id,
         };
         fetch("http://127.0.0.1:5555/api/reviews", {
             method: "POST",
             headers: {
-            "Content-Type": "application/json",
-            },
+                "Content-Type": "application/json",
+                },
             body: JSON.stringify(reviewData),
         })
             .then((r) => r.json())
             .then((newItem) => {
-            console.log(newItem)
-            setReviews(newItem)});
-            
-            
+                console.log(newItem)
+                addNewReview(newItem)
+            })
     }
+    const addNewReview = (newReview) => {
+        setReviews((prevReviews) => [...prevReviews, newReview]);
+      };
+
 
     return (
         <div>
             <button onClick={onClickButton}>Add Review</button>
             {showForm && (
                 <form >
+                    <input
+                        type="number"
+                        value={user_id}
+                        onChange={(e) => setUserId(e.target.value)}
+                    ></input>
+                    <input
+                        type="number"
+                        value={product_id}
+                        onChange={(e) => setProductId(e.target.value)}
+                    ></input>
                     <input
                         type="number"
                         value={rating}
