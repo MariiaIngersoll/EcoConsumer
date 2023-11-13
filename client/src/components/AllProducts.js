@@ -58,7 +58,7 @@ function AllProducts() {
   const handleProductClick = (productId) => {
       navigate(`/products/${productId}`);
   }
-  
+
   const productsArray = filteredProducts.map((product) => (
       <div
         className="single-product"
@@ -77,9 +77,12 @@ function AllProducts() {
 
   return (
     <>
+      <p className="paragraphForAllProducts">Explore our eco-conscious collection, a curated array of products designed to enhance your daily routine while being kind to the environment. From household essentials to body care favorites, each item aligns with our commitment to sustainability. They're not just products; they're eco-friendly solutions. Enjoy the journey of discovering and adding them to your favorites, taking steps towards a greener, more sustainable lifestyle.</p>
+      <div className="filterAndSearchDiv">
+      <label htmlFor="search">Search products by name:</label>
       <input
         type="text"
-        placeholder="Search products by name..."
+        placeholder="Start typing here..."
         value={searchQuery}
         onChange={handleSearch}
         className="search-bar"
@@ -97,6 +100,7 @@ function AllProducts() {
             </option>
           ))}
         </select>
+        </div>
       </div>
       <div className="products-container">
         {productsArray}

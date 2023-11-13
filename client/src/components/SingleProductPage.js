@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setSingleProduct} from "../redux_store/ProductsSlice";
 import { useParams } from "react-router-dom";
-
+import AddReviewButton from "./AddReviewButton";
 
 function SingleProductPage() {
   const { productId } = useParams();
@@ -50,6 +50,7 @@ function SingleProductPage() {
             )}
         </div>
         ))}
+        <AddReviewButton />
       </div>
     </div>
   );

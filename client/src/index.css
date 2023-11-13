@@ -24,6 +24,16 @@ nav ul {
   margin-bottom: 20px;
 }
 
+nav ul li::after {
+  content: "|";
+  margin-left: 10px; 
+  color: white;
+  font-weight: bold;
+}
+nav ul li:last-child::after {
+  display: none; 
+}
+
 nav ul li {
   margin-right: 30px;
 }
@@ -36,7 +46,8 @@ nav ul li a {
   text-decoration: none;
   color: white;
   font-weight: bold;
-  transition: 0.3s;
+  transition: 0.6s;
+  margin-right: 20px;
 }
 
 nav ul li a:hover {
@@ -54,6 +65,14 @@ span {
   margin-bottom: 20px;
   text-decoration: overline;
 }
+
+.logo-image {
+  width: 70px; 
+  height: auto; 
+  vertical-align: middle; 
+  border-radius: 70%;
+}
+
 
 .loginBtn {
   border: none;
@@ -83,6 +102,13 @@ span {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.home-section h1{
+  color: #8f9436;
+}
+.content-container h1{
+  color: #8f9436;
 }
 
 .home-section,
@@ -139,6 +165,7 @@ span {
   margin-bottom: 20px;
 }
 
+
 /* STYLING FOR PRODUCTS PAGE */
 .products-container {
   display: flex;
@@ -147,26 +174,43 @@ span {
   gap: 10px; 
 }
 
+.paragraphForAllProducts {
+  padding-top: 20px;
+  width: 90%;
+  margin: 0 auto;
+  text-align: center;
+  font-family: serif;
+  margin: 20px auto;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgb(43 171 39 / 15%);
+  background-color: white;
+}
 .single-product {
-    width: calc(20% - 20px);
-    margin-bottom: 20px;
-    background-color: white; 
-    padding: 20px;
-    box-sizing: border-box;
-    border: 1px solid #e0e0e0;
-  }
+  width: calc(20% - 20px);
+  margin-bottom: 20px;
+  background-color: white; 
+  padding: 20px;
+  box-sizing: border-box;
+  border: 1px solid #e0e0e0;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.single-product:hover {
+  transform: scale(1.05);
+  opacity: 0.8; 
+}
   
-  .single-product img {
-    width: 100%;
-    height: 200px; 
-    object-fit: cover; 
-  }
+.single-product img {
+  width: 100%;
+  height: 200px; 
+  object-fit: cover; 
+}
   
-  .single-product h1 {
-    font-size: 16px;
-    font-weight: bold;
-    margin-top: 10px;
-  }
+.single-product h1 {
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 10px;
+}
 
 /* CSS FOR SEARCH INPUTS */
 
@@ -174,7 +218,7 @@ span {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* Center horizontally */
+  justify-content: center; 
   width: 80%;
   margin: 0 auto;
 }
@@ -196,6 +240,10 @@ span {
 .search-bar {
   order: 1;
   width: 20%;
+}
+
+.filterAndSearchDiv{
+  text-align-last: center;
 }
 
 .filter-form select,
@@ -333,7 +381,7 @@ span {
 }
 
 .single-product-page img {
-  width: 50%;
+  width: 30%;
   height: auto;
   margin-bottom: 20px;
 }
@@ -371,9 +419,12 @@ span {
 
 .review {
   border: 1px solid #ccc;
-  padding: 20px;
   margin: 20px 0;
   background-color: white;
+  width: 100%;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  padding: 5px;
 }
 
 .review p {
