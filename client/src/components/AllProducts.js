@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import SingleProductPage from "./SingleProductPage";
+import SingleProductPage from "./ProductDetails";
 import { useSelector, useDispatch } from "react-redux";
 import { setProducts } from "../redux_store/ProductsSlice";
 import { useNavigate } from "react-router-dom";

@@ -6,7 +6,7 @@ import Navigation from "./Navigation";
 import Home from "./Home";
 import AllCompanies from "./AllCompanies";
 import SingleCompanyPage from "./SingleCompanyPage";
-import SingleProductPage from "./SingleProductPage";
+import SingleProductPage from "./ProductDetails";
 
 function App() {
   return (

@@ -23,6 +23,7 @@ function AllCompanies() {
 
   return (
     <div className="companies-container">
+      <p className="paragraphForAllCompanies">Discover a collection of eco-conscious companies driven by their commitment to sustainability on our platform. Each partner we feature holds a core value in aligning their business practices with a focus on the environment. From pioneering renewable energy providers to innovative sustainable product manufacturers, these companies stand as pillars in the realm of eco-consciousness. Through their contributions, they redefine success, proving that thriving businesses and environmental care can go hand in hand. Join us in supporting these trailblazers, taking steps towards a greener future.</p>
       {companies.map((company) => (
         <div
           className="single-company"
