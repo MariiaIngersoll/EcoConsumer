@@ -1,32 +1,84 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { loginUser } from '../redux_store/AuthActions';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import { loginStart, loginSuccess, loginFailure } from '../redux_store/AuthSlice';
 
 const Login = () => {
   const dispatch = useDispatch();
-  const [credentials, setCredentials] = useState({ username: '', password: '' });
+  const navigate = useNavigate();
 
-  const handleLogin = () => {
-    dispatch(loginUser(credentials));
-  };
+  const signInSchema = yup.object().shape({
+    username: yup.string().required('Username is required'),
+    password: yup.string().required('Password required').min(6),
+  });
 
+
+  const signInFormik = useFormik({
+    initialValues: {
+        username: '',
+        password: '',
+    },
+    validationSchema: signInSchema,
+    onSubmit: (values, { setSubmitting, setErrors }) => {
+        dispatch(loginStart());
+        fetch('http://127.0.0.1:5555/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(values),
+        }).then((res) => {
+            setSubmitting(false);
+            if (res.ok) {
+                return res.json();
+            } else {
+                return res.json().then(err => {
+                    throw err;
+                });
+            }
+        }).then((user) => {
+            dispatch(loginSuccess(user));  
+            navigate('/');
+        }).catch((error) => {
+            dispatch(loginFailure(error.message || "An unexpected error occurred.")); 
+            setErrors({ form: error.message || "An unexpected error occurred." });
+        });
+    }
+});
   return (
     <div>
-      <input
-        type="text"
-        placeholder="Username"
-        value={credentials.username}
-        onChange={(e) => setCredentials({ ...credentials, username: e.target.value })}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={credentials.password}
-        onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
-      />
-      <button onClick={handleLogin}>Login</button>
-      <p>Don't have an account? <Link to="/signup">Sign Up</Link></p>
+      <form onSubmit={signInFormik.handleSubmit}>
+        <input
+          type="text"
+          placeholder="Username"
+          name="username"
+          value={signInFormik.values.username}
+          onChange={signInFormik.handleChange}
+          onBlur={signInFormik.handleBlur}
+        />
+        {signInFormik.errors.username && signInFormik.touched.username && (
+          <div>{signInFormik.errors.username}</div>
+        )}
+
+        <input
+          type="password"
+          placeholder="Password"
+          name="password"
+          value={signInFormik.values.password}
+          onChange={signInFormik.handleChange}
+          onBlur={signInFormik.handleBlur}
+        />
+        {signInFormik.errors.password && signInFormik.touched.password && (
+          <div>{signInFormik.errors.password}</div>
+        )}
+
+        <button type="submit">Login</button>
+      </form>
+      <p>
+        Don't have an account? <Link to="/signup">Sign Up</Link>
+      </p>
     </div>
   );
 };

@@ -91,7 +91,7 @@ if __name__ == '__main__':
             {
                 "name": "L’OCCITANE",
                 "description": "For more than a decade, L'OCCITANE has been dedicated to sustainability, actively working to reduce waste and minimize their carbon footprint. They embrace eco-refills and use bottles made from 100% recycled plastic as part of their commitment to a greener and more environmentally responsible approach.",
-                "image": "https://cdn.freebiesupply.com/logos/large/2x/loccitane-1-logo-png-transparent.png",
+                "image": "https://logos-world.net/wp-content/uploads/2020/11/LOccitane-Symbol-700x394.jpg",
             },
             {
                 "name": "Blueland",

@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-function ProductDetails() {
+function ProductDetails( {user, isAuthenticated } ) {
   const { productId } = useParams();
   const [showForm, setShowForm] = useState(false);
   const dispatch = useDispatch();
@@ -32,7 +32,7 @@ function ProductDetails() {
         body: JSON.stringify({
           content: values.content,
           rating: values.rating,
-          user_id: 1, 
+          user_id: user.id, 
           product_id: productId,
         }),
       })
@@ -80,41 +80,44 @@ function ProductDetails() {
             )}
           </div>
         ))}
-<div className="review-form">
-  <button onClick={() => setShowForm(true)}>Add Review</button>
-  {showForm && (
-    <Formik
-      initialValues={{ rating: "", content: "" }} 
-      validationSchema={validationSchema}
-      onSubmit={(values, { setSubmitting, resetForm }) => {
-        handleAddReview(values).then(() => {
-          resetForm();
-          setSubmitting(false);
-          setShowForm(false); 
-        });
-      }}
-      enableReinitialize 
-    >
-      {({ isSubmitting }) => (
-        <Form>
-          <div>
-            <Field type="number" name="rating" placeholder="Rating (1-5)" />
-            <ErrorMessage name="rating" component="div" />
-          </div>
-          <div>
-            <Field as="textarea" name="content" placeholder="Type your review here..." />
-            <ErrorMessage name="content" component="div" />
-          </div>
-          <div>
-            <button type="submit" disabled={isSubmitting}>
-              Submit Review
-            </button>
-          </div>
-        </Form>
-      )}
-    </Formik>
-  )}
-</div>
+    {isAuthenticated? 
+        <div className="review-form">
+        <button onClick={() => setShowForm(true)}>Add Review</button>
+        {showForm && (
+          <Formik
+            initialValues={{ rating: "", content: "" }} 
+            validationSchema={validationSchema}
+            onSubmit={(values, { setSubmitting, resetForm }) => {
+              handleAddReview(values).then(() => {
+                resetForm();
+                setSubmitting(false);
+                setShowForm(false); 
+              });
+            }}
+          
+          >
+        
+        {({ isSubmitting }) => (
+          <Form>
+            <div>
+              <Field type="number" name="rating" placeholder="Rating (1-5)" />
+              <ErrorMessage name="rating" component="div" />
+            </div>
+            <div>
+              <Field as="textarea" name="content" placeholder="Type your review here..." />
+              <ErrorMessage name="content" component="div" />
+            </div>
+            <div>
+              <button type="submit" disabled={isSubmitting}>
+                Submit Review
+              </button>
+            </div>
+          </Form>
+        )}
+      </Formik>
+    )}
+  </div> : <h3>LOGIN TO ADD A COMMENT </h3>}
+
       </div>
     </div>
   );

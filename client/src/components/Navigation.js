@@ -1,21 +1,27 @@
 import React from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { selectIsAuthenticated } from '../redux_store/AuthSlice';
-import { logoutUser } from '../redux_store/AuthActions'
-import Login from './Login';
+import { logout } from "../redux_store/AuthSlice";
 
 import logoImage from "../GreenLogo.png"
 
 
 function Navigation() {
-  const isAuthenticated = useSelector(selectIsAuthenticated);
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
-  const handleLogout = () => {
-    // Dispatch the logout action
-    dispatch(logoutUser());
-  };
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+
+  function handleLogout() {
+    fetch("http://127.0.0.1:5555/api/logout", {
+        method: "DELETE"
+    }).then((res) => {
+        if (res.ok) {
+            dispatch(logout());
+            navigate("/")
+        }
+    });
+}
 
   return (
     <div className="nav-menu">

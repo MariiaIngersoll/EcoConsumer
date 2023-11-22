@@ -22,7 +22,6 @@ def index():
 class Signup(Resource):
     def post(self):
         json_data = request.get_json()
-
         username = json_data.get('username')
         email = json_data.get('email')
         password = json_data.get('password')
@@ -31,12 +30,14 @@ class Signup(Resource):
             new_user = User(
                 username=username,
                 email = email,
+                
             )
             new_user.password_hash = password
             db.session.add(new_user)
             db.session.commit()
 
             session['user_id'] = new_user.id
+            
         
             response = make_response(new_user.to_dict(), 201)
             return response
@@ -54,6 +55,7 @@ class Login(Resource):
         if user:
             if user.authenticate(password):
                 session['user_id'] = user.id
+                print("Session after login:", session)
                 response = make_response(user.to_dict(), 200)
                 return response
         return {'Incorrect username or password'}, 401
@@ -63,10 +65,22 @@ api.add_resource(Login, '/api/login')
 class CheckSession(Resource):
     def get(self):
         try:
-            user = User.query.filter_by(id=session['user_id']).first()
-            response = make_response(user.to_dict(), 200)
-            return response
-        except:
+            user_id = session.get('user_id')
+            app.logger.info(f"User ID from session: {user_id}")
+            if user_id is not None:
+                user = User.query.filter_by(id=user_id).first()
+                if user:
+                    app.logger.info("User data: {user.to_dict()}")
+                    response = make_response(user.to_dict(), 200)
+                    return response
+                else:
+                    app.logger.warning("User not found")
+                    abort(401, "User not found")
+            else:
+                app.logger.warning("User ID not in session")
+                abort(401, "Please log in")
+        except Exception as e:
+            app.logger.error(f"Check session error: {e}")
             abort(401, "Please log in")
 
 api.add_resource(CheckSession, '/api/check_session')
@@ -128,6 +142,24 @@ class ReviewsResource(Resource):
     def get(self):
         reviews = Review.query.all()
         return [review.to_dict() for review in reviews], 200
+    
+    def post(self):
+        review_data = request.get_json()
+        content = review_data.get('content')
+        rating = review_data.get('rating')
+        user_id = review_data.get('user_id')
+        product_id = review_data.get('product_id')
+
+        new_review = Review(
+            content = content,
+            rating= rating,
+            user_id=user_id,
+            product_id=product_id,
+        )
+        db.session.add(new_review)
+        db.session.commit()
+
+        return new_review.to_dict(), 201
 
 api.add_resource(ReviewsResource, "/api/reviews")
 

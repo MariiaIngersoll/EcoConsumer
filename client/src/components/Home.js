@@ -2,12 +2,20 @@ import React from "react";
 import ecoImage1 from "../eco-environment-vector-451039.jpeg";
 import ecoImage2 from "../green-planet.jpg";
 import ecoImage3 from "../eco-illustration.jpg";
+import { useSelector } from "react-redux";
 
-function Home() {
+
+function Home(  {isAuthenticated }) {
+
+  const user = useSelector((state) => state.auth.user)
+
   return (
     <div className="home-container">
         <div className="intro-container">
-        <h1>Welcome to EcoConsumer</h1>
+        {isAuthenticated? 
+        <h1>Welcome to EcoConsumer {user.username}  </h1> : 
+        <h1>Welcome to EcoConsumer  someone</h1>}
+        
         <p>
           EcoConsumer is your gateway to a sustainable lifestyle. We believe in making eco-friendly choices accessible and enjoyable. Explore our curated content to discover the beauty of nature, understand the importance of being eco-minded, and embark on a journey towards sustainable living. Together, let's make a positive impact on our planet and create a brighter future for generations to come.
         </p>

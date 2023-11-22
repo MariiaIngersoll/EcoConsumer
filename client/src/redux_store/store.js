@@ -1,19 +1,19 @@
 import { configureStore } from "@reduxjs/toolkit"
-import { productsSlice } from "./ProductsSlice"
-import { companiesSlice } from "./CompaniesSlice";
-import { reviewsSlice } from "./ReviewsSlice";
-import { authSlice} from './AuthSlice';
-import thunk from 'redux-thunk'
+import  productsSlice  from "./ProductsSlice"
+import  companiesSlice  from "./CompaniesSlice";
+import  reviewsSlice  from "./ReviewsSlice";
+import  authReducer from './AuthSlice';
+import  sessionReducer from "./SessionSlice";
 
 export const store = configureStore(
     {
         reducer: {
-            products: productsSlice.reducer,
-            companies: companiesSlice.reducer,
-            reviews: reviewsSlice.reducer,
-            auth: authSlice.reducer,
+            products: productsSlice,
+            companies: companiesSlice,
+            reviews: reviewsSlice,
+            auth: authReducer,
+            session: sessionReducer,
         },
-        middleware: [thunk],
     }
 );
 

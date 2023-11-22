@@ -29,7 +29,10 @@ class Review(db.Model, SerializerMixin):
         "-product.manufacturer",
         "-product.description",
         "-product.image",
-        "-user",
+        "-user.reviews",
+        "-user.products",
+        "-user.email",
+        "-id",
 
     )
 
@@ -68,7 +71,6 @@ class User(db.Model, SerializerMixin):
 
     serialize_rules = (
         '-image',
-        '-_password_hash',
         '-reviews.product.ecoFriendlyFeatures',
         '-reviews.product.category',
         '-reviews.createdAt',
