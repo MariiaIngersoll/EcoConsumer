@@ -54,10 +54,11 @@ const Login = () => {
   });
         
   return (
-    <div>
-      <form onSubmit={signInFormik.handleSubmit}>
+    <div className="centered-container">
+      <form className="login-form" onSubmit={signInFormik.handleSubmit}>
         <input
           type="text"
+          className="input-field"
           placeholder="Username"
           name="username"
           value={signInFormik.values.username}
@@ -65,11 +66,12 @@ const Login = () => {
           onBlur={signInFormik.handleBlur}
         />
         {signInFormik.errors.username && signInFormik.touched.username && (
-          <div>{signInFormik.errors.username}</div>
+          <div className="error-message">{signInFormik.errors.username}</div>
         )}
-
+  
         <input
           type="password"
+          className="input-field"
           placeholder="Password"
           name="password"
           value={signInFormik.values.password}
@@ -77,16 +79,18 @@ const Login = () => {
           onBlur={signInFormik.handleBlur}
         />
         {signInFormik.errors.password && signInFormik.touched.password && (
-          <div>{signInFormik.errors.password}</div>
+          <div className="error-message">{signInFormik.errors.password}</div>
         )}
-
-        <button type="submit">Login</button>
+  
+        <button type="submit" className="login-button">Login</button>
       </form>
+      
       <p>
-        Don't have an account? <Link to="/signup">Sign Up</Link>
+        Don't have an account? <Link to="/signup" className="signup-link">Sign Up</Link>
       </p>
     </div>
-  )
-};
+  );
+
+}
 
 export default Login;

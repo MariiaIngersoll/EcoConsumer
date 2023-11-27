@@ -56,65 +56,72 @@ function Register() {
   });
 
   return (
-    <div>
-      <h1>Register</h1>
-      <form onSubmit={formik.handleSubmit}>
-      <label htmlFor="username">IMAGE:</label>
+      <div className="signup-container">
+        <h1>Register</h1>
+        <form className="register-form" onSubmit={formik.handleSubmit}>
+        <label htmlFor="image">IMAGE:</label>
         <input
           type="text"
           id="image"
           name="image"
+          className="input-field"
           onChange={formik.handleChange}
           value={formik.values.image}
         />
+  
         <label htmlFor="username">Username:</label>
         <input
           type="text"
           id="username"
           name="username"
+          className="input-field"
           onChange={formik.handleChange}
           value={formik.values.username}
         />
         {formik.errors.username && formik.touched.username && (
-          <div>{formik.errors.username}</div>
+          <div className="errors">{formik.errors.username}</div>
         )}
-
+  
         <label htmlFor="email">Email:</label>
         <input
           type="email"
           id="email"
           name="email"
+          className="input-field"
           onChange={formik.handleChange}
           value={formik.values.email}
         />
         {formik.errors.email && formik.touched.email && (
-          <div>{formik.errors.email}</div>
+          <div className="errors">{formik.errors.email}</div>
         )}
-
+  
         <label htmlFor="password">Password:</label>
         <input
           type="password"
           id="password"
           name="password"
+          className="input-field"
           onChange={formik.handleChange}
           value={formik.values.password}
         />
-          {formik.errors && (
-            <div className="errors">
-              <ul>
-                {Object.values(formik.errors).map((error, index) => (
-                  <h6 key={index} style={{ color: "red" }}>
-                    {error}
-                  </h6>
-                ))}
-              </ul>
-            </div>
+        {formik.errors && (
+          <div className="errors">
+            <ul>
+              {Object.values(formik.errors).map((error, index) => (
+                <h6 key={index}>{error}</h6>
+              ))}
+            </ul>
+          </div>
         )}
-
-        <button type="submit">Register</button>
+  
+        <button type="submit" className="register-button">
+          Register
+        </button>
       </form>
-
-      <Link to="/login">Already have an account? Login here.</Link>
+  
+      <p className="login-link">
+      Already have an account? <Link to="/login">Login here.</Link>
+     </p>
     </div>
   );
 }
