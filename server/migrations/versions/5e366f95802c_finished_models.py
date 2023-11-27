@@ -1,8 +1,8 @@
-"""created models
+"""finished models
 
-Revision ID: 8d144f82fd75
+Revision ID: 5e366f95802c
 Revises: 
-Create Date: 2023-10-30 23:00:51.916656
+Create Date: 2023-11-26 23:08:26.933912
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '8d144f82fd75'
+revision = '5e366f95802c'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -22,6 +22,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(), nullable=True),
     sa.Column('description', sa.String(), nullable=True),
+    sa.Column('image', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('users',
@@ -38,6 +39,7 @@ def upgrade():
     sa.Column('description', sa.String(), nullable=True),
     sa.Column('ecoFriendlyFeatures', sa.String(), nullable=True),
     sa.Column('category', sa.String(), nullable=True),
+    sa.Column('image', sa.String(), nullable=True),
     sa.Column('manufacturer_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['manufacturer_id'], ['manufacturers.id'], name=op.f('fk_products_manufacturer_id_manufacturers')),
     sa.PrimaryKeyConstraint('id')

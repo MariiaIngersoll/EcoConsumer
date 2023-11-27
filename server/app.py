@@ -6,7 +6,6 @@ from config import app, db, api
 from models import User, Manufacturer, Product, Review
 
 from flask_restful import Resource
-from config import api, db
 
 
 @app.route('/')
@@ -25,11 +24,13 @@ class Signup(Resource):
         username = json_data.get('username')
         email = json_data.get('email')
         password = json_data.get('password')
+        image = json_data.get('image')
 
         if username and password:
             new_user = User(
                 username=username,
                 email = email,
+                image = image,
                 
             )
             new_user.password_hash = password
@@ -37,7 +38,6 @@ class Signup(Resource):
             db.session.commit()
 
             session['user_id'] = new_user.id
-            
         
             response = make_response(new_user.to_dict(), 201)
             return response
@@ -51,36 +51,27 @@ class Login(Resource):
         username = json_data.get('username')
         password = json_data.get('password')
         user = User.query.filter(User.username == username).first()
-        
-        if user:
-            if user.authenticate(password):
-                session['user_id'] = user.id
-                print("Session after login:", session)
-                response = make_response(user.to_dict(), 200)
-                return response
+
+        if user and user.authenticate(password):
+            session['user_id'] = user.id
+            response = make_response(user.to_dict(), 200)
+            return response
         return {'Incorrect username or password'}, 401
     
 api.add_resource(Login, '/api/login')
 
 class CheckSession(Resource):
     def get(self):
-        try:
-            user_id = session.get('user_id')
-            app.logger.info(f"User ID from session: {user_id}")
-            if user_id is not None:
-                user = User.query.filter_by(id=user_id).first()
-                if user:
-                    app.logger.info("User data: {user.to_dict()}")
-                    response = make_response(user.to_dict(), 200)
-                    return response
-                else:
-                    app.logger.warning("User not found")
-                    abort(401, "User not found")
+        user_id = session.get('user_id')
+
+        if user_id is not None:
+            user = User.query.filter_by(id=user_id).first()
+            if user:
+                response = make_response(user.to_dict(), 200)
+                return response
             else:
-                app.logger.warning("User ID not in session")
-                abort(401, "Please log in")
-        except Exception as e:
-            app.logger.error(f"Check session error: {e}")
+                abort(401, "User not found")
+        else:
             abort(401, "Please log in")
 
 api.add_resource(CheckSession, '/api/check_session')

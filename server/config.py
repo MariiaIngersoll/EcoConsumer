@@ -9,7 +9,6 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
 from flask_bcrypt import Bcrypt
 
-
 # Local imports
 
 # Instantiate app, set attributes
@@ -19,7 +18,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False  
 
 
-app.secret_key = "f25a6979-c2ee-4b61-a5cb-b251d306e124"
+app.secret_key = "49946a1a959855ee39309457c69f8ff1829118e8a5f695e7b7e1aeba7dd1dab4"
 
 
 # Define metadata, instantiate db
@@ -35,5 +34,4 @@ bcrypt = Bcrypt(app)
 # Instantiate REST API
 api = Api(app)
 
-# Instantiate CORS
-CORS(app, supports_credentials=True)
+CORS(app)

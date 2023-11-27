@@ -45,7 +45,7 @@ function Navigation() {
         </ul>
         {isAuthenticated ? (
           <>
-            <button className="logoutBtn" type="button" onClick={handleLogout}>
+            <button className="loginBtn" type="button" onClick={handleLogout}>
               LOGOUT
             </button>
           </>

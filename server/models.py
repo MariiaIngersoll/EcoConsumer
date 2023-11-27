@@ -70,6 +70,7 @@ class User(db.Model, SerializerMixin):
         return f'<User username is {self.username}>'
 
     serialize_rules = (
+        '-_password_hash',
         '-image',
         '-reviews.product.ecoFriendlyFeatures',
         '-reviews.product.category',

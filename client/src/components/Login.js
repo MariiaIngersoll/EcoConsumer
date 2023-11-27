@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { setUser } from '../redux_store/SessionSlice';
 import { loginStart, loginSuccess, loginFailure } from '../redux_store/AuthSlice';
 
 const Login = () => {
@@ -11,42 +12,47 @@ const Login = () => {
 
   const signInSchema = yup.object().shape({
     username: yup.string().required('Username is required'),
-    password: yup.string().required('Password required').min(6),
+    password: yup.string().required('Password required'),
   });
 
-
-  const signInFormik = useFormik({
-    initialValues: {
-        username: '',
-        password: '',
-    },
-    validationSchema: signInSchema,
-    onSubmit: (values, { setSubmitting, setErrors }) => {
-        dispatch(loginStart());
+  const handleSubmit = (values) => {
+    dispatch(loginStart());
         fetch('http://127.0.0.1:5555/api/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(values),
-        }).then((res) => {
-            setSubmitting(false);
-            if (res.ok) {
-                return res.json();
+        }).then((r) => {
+            if (r.ok) {
+                return r.json();
             } else {
-                return res.json().then(err => {
-                    throw err;
-                });
+                throw new Error('Oops something went wrong')
             }
-        }).then((user) => {
-            dispatch(loginSuccess(user));  
+        })
+        .then((data) => {
+            console.log('Data from server:', data);
+            dispatch(loginSuccess(data));
+            console.log('Data sent to setUser:', data);
+            dispatch(setUser(data));  
             navigate('/');
-        }).catch((error) => {
-            dispatch(loginFailure(error.message || "An unexpected error occurred.")); 
-            setErrors({ form: error.message || "An unexpected error occurred." });
+        })
+        .catch((error) => {
+            console.error('Login failed:', error.message);
+            dispatch(loginFailure(error.message));
         });
-    }
-});
+    };
+
+  
+  const signInFormik = useFormik({
+    initialValues: {
+        username: '',
+        password: '',
+    },
+    validationSchema: signInSchema,
+    onSubmit: handleSubmit,
+  });
+        
   return (
     <div>
       <form onSubmit={signInFormik.handleSubmit}>
@@ -80,7 +86,7 @@ const Login = () => {
         Don't have an account? <Link to="/signup">Sign Up</Link>
       </p>
     </div>
-  );
+  )
 };
 
 export default Login;

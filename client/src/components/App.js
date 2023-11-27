@@ -18,21 +18,17 @@ function App() {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user)
-  const [loading, setLoading] = useState(true);
-  console.log(isAuthenticated)
-  console.log(user)
 
+  console.log(user)
   useEffect(() => {
     fetch("http://127.0.0.1:5555/api/check_session").then((res) => {
       if (res.ok){
         res.json().then((userData) => {
           dispatch(setUser(userData)); 
           dispatch(loginSuccess(userData)); 
-          setLoading(false);
         });
       } else {
         dispatch(logout()); 
-        setLoading(false);
       }
     });
   }, [dispatch]);

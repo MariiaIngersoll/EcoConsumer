@@ -4,6 +4,7 @@ import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { loginStart, loginSuccess, loginFailure } from "../redux_store/AuthSlice";
+import { setUser } from "../redux_store/SessionSlice";
 
 function Register() {
   const navigate = useNavigate();
@@ -17,49 +18,55 @@ function Register() {
       .required("Password is required"),
   });
 
+  const handleSubmit = (values) => {
+    dispatch(loginStart());
+    fetch("http://127.0.0.1:5555/api/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(values),
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Oops something went wrong');
+        }
+      })
+      .then((data) => {
+        dispatch(loginSuccess(data));
+        dispatch(setUser(data))
+        navigate('/')
+      })
+      .catch((error) => {
+        dispatch(loginFailure(error.message));
+      });
+  };
+
   const formik = useFormik({
     initialValues: {
       username: "",
       email: "",
       password: "",
+      image: "",
     },
     validationSchema: validationSchema,
-    onSubmit: async (values, { setSubmitting, setErrors }) => {
-      try {
-        dispatch(loginStart());
-
-        const response = await fetch("http://127.0.0.1:5555/api/signup", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(values),
-        });
-
-        if (response.ok) {
-          const user = await response.json();
-          dispatch(loginSuccess(user));
-          navigate("/");
-        } else {
-          const error = await response.json();
-          dispatch(
-            loginFailure(error.message || "An unexpected error occurred.")
-          );
-        }
-      } catch (error) {
-        dispatch(
-          loginFailure(error.message || "An unexpected error occurred.")
-        );
-      } finally {
-        setSubmitting(false);
-      }
-    },
+    onSubmit: handleSubmit, 
   });
 
   return (
     <div>
       <h1>Register</h1>
       <form onSubmit={formik.handleSubmit}>
+      <label htmlFor="username">IMAGE:</label>
+        <input
+          type="text"
+          id="image"
+          name="image"
+          onChange={formik.handleChange}
+          value={formik.values.image}
+        />
         <label htmlFor="username">Username:</label>
         <input
           type="text"
@@ -92,8 +99,16 @@ function Register() {
           onChange={formik.handleChange}
           value={formik.values.password}
         />
-        {formik.errors.password && formik.touched.password && (
-          <div>{formik.errors.password}</div>
+          {formik.errors && (
+            <div className="errors">
+              <ul>
+                {Object.values(formik.errors).map((error, index) => (
+                  <h6 key={index} style={{ color: "red" }}>
+                    {error}
+                  </h6>
+                ))}
+              </ul>
+            </div>
         )}
 
         <button type="submit">Register</button>
