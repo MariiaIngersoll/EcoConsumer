@@ -13,12 +13,11 @@ function Navigation() {
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 
   function handleLogout() {
-    fetch("http://127.0.0.1:5555/api/logout", {
+    fetch("/api/logout", {
         method: "DELETE"
     }).then((res) => {
         if (res.ok) {
             dispatch(logout());
-            navigate("/")
         }
     });
 }

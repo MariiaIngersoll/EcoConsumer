@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom"; 
 import { setSingleProduct } from "../redux_store/ProductsSlice";
 import { setReviewsForProduct, addReview } from "../redux_store/ReviewsSlice";
 import { useParams } from "react-router-dom";
@@ -13,18 +14,29 @@ function ProductDetails( {user, isAuthenticated } ) {
   const singleProduct = useSelector((state) => state.products.singleProduct);
   const reviews = useSelector((state) => state.reviews.reviewsForProduct);
 
+  const navigate = useNavigate()
+
   useEffect(() => {
-    fetch(`http://127.0.0.1:5555/api/products/${productId}`)
-      .then((r) => r.json())
+    fetch(`/api/products/${productId}`)
+      .then((r) => {
+        if (!r.ok) {
+          throw new Error('Failed to fetch product');
+        }
+        return r.json();
+      })
       .then((data) => {
         dispatch(setSingleProduct(data));
         dispatch(setReviewsForProduct(data.reviews));
+      })
+      .catch((error) => {
+        console.error('Error fetching product:', error);
+        // Handle the error, e.g., show an error message to the user
       });
   }, [dispatch, productId]);
 
   const handleAddReview = (values) => {
     return new Promise((resolve, reject) => {
-      fetch("http://127.0.0.1:5555/api/reviews", {
+      fetch("/api/reviews", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -50,7 +62,6 @@ function ProductDetails( {user, isAuthenticated } ) {
   const validationSchema = Yup.object().shape({
     rating: Yup.number()
       .typeError("Rating must be a number")
-      .min(1, "Rating must be at least 1")
       .max(5, "Rating must be at most 5")
       .required("Rating is required"),
     content: Yup.string().required("Review content is required"),
@@ -73,11 +84,7 @@ function ProductDetails( {user, isAuthenticated } ) {
           <div key={review.id} className="review">
             <p>Rating: {review.rating}</p>
             <p>{review.content}</p>
-            {review.user ? (
-              <p>By: {review.user.username}</p>
-            ) : (
-              <p>By: Unknown User</p>
-            )}
+            <p>By: {review.user.username}</p>
           </div>
         ))}
     {isAuthenticated? 
@@ -94,10 +101,7 @@ function ProductDetails( {user, isAuthenticated } ) {
                 setShowForm(false); 
               });
             }}
-          
           >
-        
-        {({ isSubmitting }) => (
           <Form>
             <div>
               <Field type="number" name="rating" placeholder="Rating (1-5)" />
@@ -108,15 +112,20 @@ function ProductDetails( {user, isAuthenticated } ) {
               <ErrorMessage name="content" component="div" />
             </div>
             <div>
-              <button type="submit" disabled={isSubmitting}>
+              <button type="submit" >
                 Submit Review
               </button>
             </div>
-          </Form>
-        )}
+          </Form> 
       </Formik>
     )}
-  </div> : <h3>LOGIN TO ADD A COMMENT </h3>}
+   </div> : (
+      <div>
+      <h3>LOGIN TO ADD A COMMENT</h3>
+      <p>
+        Already have an account? <Link to={`/login?redirect=${window.location.pathname}`}>LOGIN HERE</Link>
+      </p>
+    </div>)}
 
       </div>
     </div>

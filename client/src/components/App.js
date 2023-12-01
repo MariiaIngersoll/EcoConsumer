@@ -21,7 +21,7 @@ function App() {
 
   console.log(user)
   useEffect(() => {
-    fetch("http://127.0.0.1:5555/api/check_session").then((res) => {
+    fetch("/api/check_session").then((res) => {
       if (res.ok){
         res.json().then((userData) => {
           dispatch(setUser(userData)); 

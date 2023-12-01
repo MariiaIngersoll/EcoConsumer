@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -9,6 +9,7 @@ import { loginStart, loginSuccess, loginFailure } from '../redux_store/AuthSlice
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation()
 
   const signInSchema = yup.object().shape({
     username: yup.string().required('Username is required'),
@@ -17,7 +18,7 @@ const Login = () => {
 
   const handleSubmit = (values) => {
     dispatch(loginStart());
-        fetch('http://127.0.0.1:5555/api/login', {
+        fetch('/api/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -35,7 +36,12 @@ const Login = () => {
             dispatch(loginSuccess(data));
             console.log('Data sent to setUser:', data);
             dispatch(setUser(data));  
-            navigate('/');
+            const redirect = new URLSearchParams(location.search).get("redirect");
+            if (redirect) {
+              navigate(redirect)
+            } else {
+              navigate("/")
+            }
         })
         .catch((error) => {
             console.error('Login failed:', error.message);

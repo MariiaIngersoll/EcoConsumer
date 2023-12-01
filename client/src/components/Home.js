@@ -13,8 +13,8 @@ function Home(  {isAuthenticated }) {
     <div className="home-container">
         <div className="intro-container">
         {isAuthenticated? 
-        <h1>Welcome to EcoConsumer {user.username}  </h1> : 
-        <h1>Welcome to EcoConsumer  someone</h1>}
+        <h1>Welcome to EcoConsumer, {user.username}!</h1> : 
+        <h1>Welcome to EcoConsumer!</h1>}
         
         <p>
           EcoConsumer is your gateway to a sustainable lifestyle. We believe in making eco-friendly choices accessible and enjoyable. Explore our curated content to discover the beauty of nature, understand the importance of being eco-minded, and embark on a journey towards sustainable living. Together, let's make a positive impact on our planet and create a brighter future for generations to come.
