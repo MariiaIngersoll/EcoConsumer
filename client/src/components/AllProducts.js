@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import SingleProductPage from "./ProductDetails";
 import { useSelector, useDispatch } from "react-redux";
 import { setProducts } from "../redux_store/ProductsSlice";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +15,7 @@ function AllProducts() {
 
   
   useEffect(() => {
-    fetch("http://127.0.0.1:5555/api/products")
+    fetch("/api/products")
       .then((r) => r.json())
       .then((data) => {
         dispatch(setProducts(data));
@@ -65,7 +64,7 @@ function AllProducts() {
         key={product.id}
         onClick={() => handleProductClick(product.id)}
       >
-      <img src={product.image}></img>
+      <img src={product.image} alt={`Product: ${product.name}`} />
       <h1>{product.name}</h1>
       </div>
   ));
@@ -86,6 +85,7 @@ function AllProducts() {
         value={searchQuery}
         onChange={handleSearch}
         className="search-bar"
+        id="search"
       />
       <div className="filter-form">
         <label htmlFor="category">Filter by Category:</label>

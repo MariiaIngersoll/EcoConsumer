@@ -1,42 +1,40 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom"; 
+import { Link } from "react-router-dom";
 import { setSingleProduct } from "../redux_store/ProductsSlice";
-import { setReviewsForProduct, addReview } from "../redux_store/ReviewsSlice";
+import { setReviewsForProduct, addReview, updateReview } from "../redux_store/ReviewsSlice";
 import { useParams } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-function ProductDetails( {user, isAuthenticated } ) {
+function ProductDetails({ user, isAuthenticated }) {
   const { productId } = useParams();
   const [showForm, setShowForm] = useState(false);
+  const [editReview, setEditReview] = useState(null);
   const dispatch = useDispatch();
   const singleProduct = useSelector((state) => state.products.singleProduct);
   const reviews = useSelector((state) => state.reviews.reviewsForProduct);
 
-  const navigate = useNavigate()
-
   useEffect(() => {
-    fetch(`/api/products/${productId}`)
-      .then((r) => {
-        if (!r.ok) {
-          throw new Error('Failed to fetch product');
+    const fetchProduct = async () => {
+      try {
+        const response = await fetch(`/api/products/${productId}`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch product");
         }
-        return r.json();
-      })
-      .then((data) => {
+        const data = await response.json();
         dispatch(setSingleProduct(data));
         dispatch(setReviewsForProduct(data.reviews));
-      })
-      .catch((error) => {
-        console.error('Error fetching product:', error);
-        // Handle the error, e.g., show an error message to the user
-      });
+      } catch (error) {
+        console.error("Error fetching product:", error);
+      }
+    };
+    fetchProduct();
   }, [dispatch, productId]);
 
-  const handleAddReview = (values) => {
-    return new Promise((resolve, reject) => {
-      fetch("/api/reviews", {
+  const handleAddReview = async (values) => {
+    try {
+      const response = await fetch("/api/reviews", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -44,19 +42,47 @@ function ProductDetails( {user, isAuthenticated } ) {
         body: JSON.stringify({
           content: values.content,
           rating: values.rating,
-          user_id: user.id, 
+          user_id: user.id,
           product_id: productId,
         }),
-      })
-        .then((r) => r.json())
-        .then((response) => {
-          dispatch(addReview(response));
-          resolve(); 
-        })
-        .catch((error) => {
-          reject(error); 
-        });
-    });
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to add review");
+      }
+      const newReview = await response.json();
+      dispatch(addReview(newReview));
+    } catch (error) {
+      console.error("Error adding review:", error);
+    }
+  };
+
+  const handleEditClick = (reviewId) => {
+    const reviewToEdit = reviews.find((r) => r.id === reviewId);
+    setEditReview(reviewToEdit);
+    console.log('Updated editReview state:', editReview);
+    setShowForm(true);
+  };
+
+  const handleUpdateReview = async (values) => {
+
+      const response = await fetch(`/api/products/${productId}/reviews/${editReview.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          rating: values.rating,
+          content: values.content,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to update review! :(");
+      }
+      const updatedReview = await response.json();
+      dispatch(updateReview(updatedReview));
+      setEditReview(false);
+      setShowForm(false);
   };
 
   const validationSchema = Yup.object().shape({
@@ -70,7 +96,12 @@ function ProductDetails( {user, isAuthenticated } ) {
   return (
     <div className="single-product-page">
       <h1>{singleProduct.name}</h1>
-      <h3>Manufacturer: {singleProduct?.manufacturer ? singleProduct.manufacturer.name : 'Unknown'}</h3>
+      {console.log("Manufacturer:", singleProduct.manufacturer)}
+      {singleProduct.manufacturer ? (
+      <h3>Manufacturer: {singleProduct.manufacturer.name}</h3>
+    ) : (
+      <h3>Manufacturer: Unknown</h3>
+     )}
       <img src={singleProduct?.image} alt={singleProduct?.name} />
       <div className="product-details">
         <h4>Category: {singleProduct?.category} </h4>
@@ -78,47 +109,60 @@ function ProductDetails( {user, isAuthenticated } ) {
         <p>{singleProduct?.description}</p>
       </div>
 
-      <div className="reviews">
-        <h2>Reviews:</h2>
-        {reviews.map((review) => (
-          <div key={review.id} className="review">
-            <p>Rating: {review.rating}</p>
-            <p>{review.content}</p>
-            <p>By: {review.user.username}</p>
+    <div className="reviews">
+      <h2>Reviews:</h2>
+      {reviews.map((review) => (
+        <div key={review.id}  className="review" >
+          <p >Rating: {review.rating}</p>
+          <p>{review.content}</p>
+          <p>By: {review.user.username}</p>
+          <p>{review.id}</p>
+          {isAuthenticated && user.id === review.user.id && (
+            <>
+              <button onClick={() => handleEditClick(review.id)}>Edit Comment</button>
+            </>
+          )}
+        </div>
+      ))}
+        
+      {isAuthenticated? 
+      <div className="review-form">
+      <button onClick={() => setShowForm(true)}>Add Review</button>
+      {showForm && (
+        <Formik
+          initialValues={{
+            rating: editReview ? editReview.rating : "",
+            content: editReview ? editReview.content : "",
+          }}
+          validationSchema={validationSchema}
+          onSubmit={(values, { setSubmitting, resetForm }) => {
+            if (editReview) {
+              handleUpdateReview(values);
+            } else {
+              handleAddReview(values);
+            }
+            resetForm();
+            setSubmitting(false);
+            setShowForm(false);
+          }}
+        >
+        <Form>
+          <div>
+            <Field type="number" name="rating" placeholder="Rating (1-5)" />
+            <ErrorMessage name="rating" component="div" />
           </div>
-        ))}
-    {isAuthenticated? 
-        <div className="review-form">
-        <button onClick={() => setShowForm(true)}>Add Review</button>
-        {showForm && (
-          <Formik
-            initialValues={{ rating: "", content: "" }} 
-            validationSchema={validationSchema}
-            onSubmit={(values, { setSubmitting, resetForm }) => {
-              handleAddReview(values).then(() => {
-                resetForm();
-                setSubmitting(false);
-                setShowForm(false); 
-              });
-            }}
-          >
-          <Form>
-            <div>
-              <Field type="number" name="rating" placeholder="Rating (1-5)" />
-              <ErrorMessage name="rating" component="div" />
-            </div>
-            <div>
-              <Field as="textarea" name="content" placeholder="Type your review here..." />
-              <ErrorMessage name="content" component="div" />
-            </div>
-            <div>
-              <button type="submit" >
-                Submit Review
-              </button>
-            </div>
-          </Form> 
-      </Formik>
-    )}
+          <div>
+            <Field as="textarea" name="content" placeholder="Type your review here..." />
+            <ErrorMessage name="content" component="div" />
+          </div>
+          <div>
+            <button type="submit" >
+              Submit Review
+            </button>
+          </div>
+        </Form> 
+    </Formik>
+  )}
    </div> : (
       <div>
       <h3>LOGIN TO ADD A COMMENT</h3>

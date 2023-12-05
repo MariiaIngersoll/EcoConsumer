@@ -8,7 +8,7 @@ function SingleCompanyPage( ) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:5555/api/manufacturers/${companyId}`)
+    fetch(`/api/manufacturers/${companyId}`)
       .then((r) => r.json())
       .then((data) => {
         dispatch(setSingleCompany(data)); 
@@ -29,7 +29,7 @@ function SingleCompanyPage( ) {
       <h2>Products:</h2>
       <ul className="company-products-div">
         {singleCompany.products.map((product) => (
-          <li key={product.id}>
+          <li key={product.name}>
             {product.name}
             <img src={product.image} alt={product.name} />
           </li>

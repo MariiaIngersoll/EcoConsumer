@@ -10,7 +10,7 @@ function AllCompanies() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://127.0.0.1:5555/api/manufacturers")
+    fetch("/api/manufacturers")
       .then((r) => r.json())
       .then((data) => {
         dispatch(setCompanies(data));
@@ -30,7 +30,7 @@ function AllCompanies() {
           key={company.id}
           onClick={() => handleCompanyClick(company.id)}
         >
-        <img src={company.image}></img>
+        <img src={company.image} alt={`Product: ${company.name}`} />
         <h1>{company.name}</h1>
         </div>
       ))}

@@ -51,7 +51,7 @@ if __name__ == '__main__':
             {
                 "name": "Allbirds",
                 "description": "Allbirds, a carbon-neutral business, aims for more than just neutrality. They're committed to reducing their carbon footprint to zero. Their transparency in sustainability is evident through their website, where they share their journey and environmental innovations. As a Certified B Corp, they label their products with associated emissions, making conscious consumption easier. In April 2021, Allbirds open-sourced their carbon footprint tool for the benefit of other companies and consumers.",
-                "image": "https://www.allbirds.com/cdn/shop/t/1865/assets/allbirds-logo-fb.jpg?v=92553177456616239951698773342",
+                "image": "https://pbs.twimg.com/profile_images/697176316597014529/Y1pGIwKT_400x400.jpg",
             },
             {
                 "name": "Outerknown",

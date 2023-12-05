@@ -12,9 +12,15 @@ export const reviewsSlice = createSlice({
     addReview: (state, action) => {
       state.reviewsForProduct.push(action.payload);
     },
+    updateReview: (state, action) => {
+      const updatedReview = action.payload;
+      state.reviewsForProduct = state.reviewsForProduct.map(review =>
+        review.id === updatedReview.id ? updatedReview : review 
+        );
+    },
   },
 });
 
-export const { setReviewsForProduct, addReview } = reviewsSlice.actions;
+export const { setReviewsForProduct, addReview, updateReview } = reviewsSlice.actions;
 
 export default reviewsSlice.reducer;

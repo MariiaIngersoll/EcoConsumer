@@ -32,9 +32,7 @@ const Login = () => {
             }
         })
         .then((data) => {
-            console.log('Data from server:', data);
             dispatch(loginSuccess(data));
-            console.log('Data sent to setUser:', data);
             dispatch(setUser(data));  
             const redirect = new URLSearchParams(location.search).get("redirect");
             if (redirect) {

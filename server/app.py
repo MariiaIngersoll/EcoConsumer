@@ -154,6 +154,46 @@ class ReviewsResource(Resource):
 
 api.add_resource(ReviewsResource, "/api/reviews")
 
+class ReviewResource(Resource):
+    def patch(self, product_id, review_id):
+        data = request.get_json()
+
+        selected_review = Review.query.filter_by(id=review_id, product_id=product_id).first()
+
+        if not selected_review:
+            return {"error": "Review not found"}, 404
+
+        # Update only if the data is present in the request
+        if 'content' in data:
+            selected_review.content = data['content']
+        if 'rating' in data:
+            selected_review.rating = data['rating']
+
+        db.session.commit()
+
+        response = make_response(
+            selected_review.to_dict(),
+            200
+        )
+        return response
+
+    def delete(self, product_id, review_id):
+        deleted_review = Review.query.filter_by(id=review_id, product_id=product_id).first()
+
+        if not deleted_review:
+            return {"error": "Review not found"}, 404
+
+        db.session.delete(deleted_review)
+        db.session.commit()
+
+        response = make_response(
+            "Deletion completed",
+            204
+        )
+
+        return response
+    
+api.add_resource(ReviewResource, "/api/products/<int:product_id>/reviews/<int:review_id>")
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

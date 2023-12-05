@@ -32,7 +32,6 @@ class Review(db.Model, SerializerMixin):
         "-user.reviews",
         "-user.products",
         "-user.email",
-        "-id",
 
     )
 

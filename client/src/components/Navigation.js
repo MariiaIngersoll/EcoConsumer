@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, Link, useNavigate } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from "../redux_store/AuthSlice";
 
@@ -8,7 +8,6 @@ import logoImage from "../GreenLogo.png"
 
 function Navigation() {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
 
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 
