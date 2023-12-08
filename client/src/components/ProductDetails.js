@@ -132,8 +132,8 @@ function ProductDetails({ user, isAuthenticated }) {
           <p>By: {review.user.username}</p>
           {isAuthenticated && user.id === review.user.id && (
             <>
-              <button onClick={() => handleEditClick(review.id)}>Edit Comment</button>
-              <button onClick={() => handleDeleteClick(review.id)}>DELETE</button>
+              <button onClick={() => handleEditClick(review.id)}>Edit my review</button>
+              <button className="delete-button" onClick={() => handleDeleteClick(review.id)}>X</button>
             </>
           )}
         </div>

@@ -412,6 +412,7 @@ h4 {
 }
 
 .review {
+  position: relative;
   border: 1px solid #ddd;
   border-radius: 5px;
   padding: 10px;
@@ -583,4 +584,15 @@ h4 {
 }
 .signup-container h1 {
   margin-bottom: 20px; 
+}
+
+.delete-button {
+  background: none;
+  color: red;
+  font-size: 1rem;
+  cursor: pointer;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 10px; 
 }
