@@ -2,8 +2,8 @@
 from flask import request, make_response, session, abort
 from flask_restful import Resource
 
-from server.config import app, db, api
-from server.models import User, Manufacturer, Product, Review
+from config import app, db, api
+from models import User, Manufacturer, Product, Review
 
 from flask_restful import Resource
 

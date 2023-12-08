@@ -51,6 +51,7 @@ function Home(  {isAuthenticated }) {
           </p>
         </div>
       </div>
+      
     </div>
   );
 }

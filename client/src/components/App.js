@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from "react";
+import React, {useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { setUser } from "../redux_store/SessionSlice";
@@ -47,6 +47,22 @@ function App() {
           <Route path="/companies/:companyId" element={ <SingleCompanyPage />} />
           <Route path="/products/:productId" element={ <SingleProductPage user={user} isAuthenticated={isAuthenticated} />} />
         </Routes>
+        <div className="footer">
+        <div className="social-icons">
+            <a href="#" target="_blank">Facebook</a>
+            <a href="#" target="_blank">Twitter</a>
+            <a href="#" target="_blank">Instagram</a>
+        </div>
+        <div>
+            <a href="#">About Us</a>
+            <a href="#">Contact Us</a>
+            <a href="#">Privacy Policy</a>
+        </div>
+        <div className="copyright">
+            &copy; 2023 Your Website. All rights reserved.
+        </div>
+        </div>
+        
     </>
   )
 }
