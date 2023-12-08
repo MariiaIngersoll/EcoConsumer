@@ -84,9 +84,21 @@ function ProductDetails({ user, isAuthenticated }) {
     setShowForm(false);
   };
 
-  const handleDeleteClick = (deletedId) => {
-    console.log(`DELETED: ID ${deletedId}`)
-  }
+  const handleDeleteClick = async (deletedId) => {
+    try {
+      const response = await fetch(`/api/products/${productId}/reviews/${deletedId}`, {
+        method: "DELETE",
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to delete review");
+      }
+  
+      dispatch(deleteReview(deletedId));
+    } catch (error) {
+      console.error("Error deleting review:", error);
+    }
+  };
 
   const validationSchema = Yup.object().shape({
     rating: Yup.number()
