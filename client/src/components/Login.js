@@ -18,36 +18,38 @@ const Login = () => {
 
   const handleSubmit = (values) => {
     dispatch(loginStart());
-        fetch('/api/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(values),
-        }).then((r) => {
-            if (r.ok) {
-                return r.json();
-            } else {
-                throw new Error('Oops something went wrong')
-            }
-        })
-        .then((data) => {
-            dispatch(loginSuccess(data));
-            dispatch(setUser(data));  
-            const redirect = new URLSearchParams(location.search).get("redirect");
-            if (redirect) {
-              navigate(redirect)
-            } else {
-              navigate("/")
-            }
-        })
-        .catch((error) => {
-            console.error('Login failed:', error.message);
-            dispatch(loginFailure(error.message));
-        });
-    };
+    fetch('/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values),
+    })
+      .then((r) => {
+        if (r.ok) {
+          return r.json();
+        } else if (r.status === 401) {
+          throw new Error('Account with this username not found');
+        } else {
+          throw new Error('Oops something went wrong');
+        }
+      })
+      .then((data) => {
+        dispatch(loginSuccess(data));
+        dispatch(setUser(data));
+        const redirect = new URLSearchParams(location.search).get('redirect');
+        if (redirect) {
+          navigate(redirect);
+        } else {
+          navigate('/');
+        }
+      })
+      .catch((error) => {
+        console.error('Login failed:', error.message);
+        dispatch(loginFailure(error.message));
+      });
+  };
 
-  
   const signInFormik = useFormik({
     initialValues: {
         username: '',

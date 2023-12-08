@@ -18,9 +18,14 @@ export const reviewsSlice = createSlice({
         review.id === updatedReview.id ? updatedReview : review 
         );
     },
+    deleteReview: (state, action) => {
+      const deletedReviewv = action.payload;
+      state.reviewsForProduct = state.reviewsForProduct.filter(review => 
+        review.id !== deletedReviewv)
+    }
   },
 });
 
-export const { setReviewsForProduct, addReview, updateReview } = reviewsSlice.actions;
+export const { setReviewsForProduct, addReview, updateReview, deleteReview } = reviewsSlice.actions;
 
 export default reviewsSlice.reducer;

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { setSingleProduct } from "../redux_store/ProductsSlice";
-import { setReviewsForProduct, addReview, updateReview } from "../redux_store/ReviewsSlice";
+import { setReviewsForProduct, addReview, updateReview , deleteReview} from "../redux_store/ReviewsSlice";
 import { useParams } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -65,25 +65,28 @@ function ProductDetails({ user, isAuthenticated }) {
   };
 
   const handleUpdateReview = async (values) => {
-
-      const response = await fetch(`/api/products/${productId}/reviews/${editReview.id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          rating: values.rating,
-          content: values.content,
-        }),
-      });
-      if (!response.ok) {
-        throw new Error("Failed to update review! :(");
-      }
-      const updatedReview = await response.json();
-      dispatch(updateReview(updatedReview));
-      setEditReview(false);
-      setShowForm(false);
+    const response = await fetch(`/api/products/${productId}/reviews/${editReview.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        rating: values.rating,
+        content: values.content,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error("Failed to update review! :(");
+    }
+    const updatedReview = await response.json();
+    dispatch(updateReview(updatedReview));
+    setEditReview(false);
+    setShowForm(false);
   };
+
+  const handleDeleteClick = (deletedId) => {
+    console.log(`DELETED: ID ${deletedId}`)
+  }
 
   const validationSchema = Yup.object().shape({
     rating: Yup.number()
@@ -96,7 +99,6 @@ function ProductDetails({ user, isAuthenticated }) {
   return (
     <div className="single-product-page">
       <h1>{singleProduct.name}</h1>
-      {console.log("Manufacturer:", singleProduct.manufacturer)}
       {singleProduct.manufacturer ? (
       <h3>Manufacturer: {singleProduct.manufacturer.name}</h3>
     ) : (
@@ -116,10 +118,10 @@ function ProductDetails({ user, isAuthenticated }) {
           <p >Rating: {review.rating}</p>
           <p>{review.content}</p>
           <p>By: {review.user.username}</p>
-          <p>{review.id}</p>
           {isAuthenticated && user.id === review.user.id && (
             <>
               <button onClick={() => handleEditClick(review.id)}>Edit Comment</button>
+              <button onClick={() => handleDeleteClick(review.id)}>DELETE</button>
             </>
           )}
         </div>

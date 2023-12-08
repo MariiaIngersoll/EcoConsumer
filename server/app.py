@@ -56,8 +56,9 @@ class Login(Resource):
             session['user_id'] = user.id
             response = make_response(user.to_dict(), 200)
             return response
-        return {'Incorrect username or password'}, 401
-    
+        else:
+            return {'error': 'Authentication failed'}, 401
+
 api.add_resource(Login, '/api/login')
 
 class CheckSession(Resource):
