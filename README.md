@@ -6,6 +6,7 @@ EcoConsumer is a web application designed to be your gateway to a sustainable li
 ## Features
 
 - **Eco-Minded Introduction:** Understand the importance of making sustainable choices in a user-friendly way.
+![Eco-Minded Introduction Screenshot](screenshots_readme/Screen_Shot_2023-12-11_at_11.02.51_PM.png)
 
 - **Product Exploration and Reviews:**
 
