@@ -1,7 +1,23 @@
-#### How to run this in Development (Hosted in Backend Server)
+# EcoConsumer: Your Path to Sustainable Living.
 
-##### Enter Pipenv Shell
-pipenv shell
+## Overview
+EcoConsumer is a web application designed to be your gateway to a sustainable lifestyle. Whether you're a seasoned eco-conscious individual or just starting your journey towards sustainable living, EcoConsumer provides curated content to make eco-friendly choices accessible and enjoyable.
+
+## Features
+
+- **Eco-Minded Introduction:** Understand the importance of making sustainable choices in a user-friendly way.
+
+- **Product Exploration and Reviews:**
+
+Discover Eco-Friendly Reasons: Explore the green attributes of various products, empowering you to make informed choices.
+
+Immerse in Nature's Beauty: Learn how eco-friendly practices can bring you closer to the beauty of nature.
+
+Guide to Sustainable Living: Gain practical insights into sustainable living and its positive impact on the environment.
+
+- **User-Friendly Reviews:** Share your experiences by easily exploring and writing reviews for each product.
+
+- **Visual Storytelling:** Immerse yourself in a visual journey with captivating images that highlight eco-friendliness and sustainability.
 
 ##### Install Python dependencies using Pipenv
 pipenv install
