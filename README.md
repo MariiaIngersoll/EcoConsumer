@@ -6,7 +6,7 @@
 ## Features
 
 - **Eco-Minded Introduction:** Understand the importance of making sustainable choices in a user-friendly way.
-![Eco-Minded Introduction Screenshot](screenshots_readme/screen.png)
+![Eco-Minded Introduction Screenshot](https://imgur.com/ysnImUX)
 
 - **Product Exploration and Reviews:**
 
@@ -19,7 +19,7 @@
 - **User-Friendly Reviews:** Share your experiences by easily exploring and writing reviews for each product.
 
 - **Visual Storytelling:** Immerse yourself in a visual journey with captivating images that highlight eco-friendliness and sustainability.
-![Eco-Minded Visual Storytelling Screenshot](screenshots_readme/screen1.png)
+![Eco-Minded Visual Storytelling Screenshot](https://imgur.com/cpMTzza)
 
 ## Technologies Used
 
