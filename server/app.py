@@ -6,7 +6,7 @@ from config import app, db, api
 from models import User, Manufacturer, Product, Review
 
 from flask_restful import Resource
-
+from dotenv import load_dotenv
 
 # @app.route('/')
 # def index():
@@ -197,13 +197,13 @@ class ReviewResource(Resource):
 api.add_resource(ReviewResource, "/api/products/<int:product_id>/reviews/<int:review_id>")
 
 @app.route('/')
-@app.route("/companies/:companyId")
-@app.route("/products/:productId")
+@app.route("/companies/<int:companyId>")
+@app.route("/products/<int:productId>")
 @app.route("/login")
 @app.route("/signup")
 @app.route("/products")
 @app.route("/companies")
-def index(id=0):
+def index(companyId=None, productId=None):
     return render_template("index.html")
 
 if __name__ == '__main__':
