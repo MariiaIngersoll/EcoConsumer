@@ -201,8 +201,8 @@ api.add_resource(ReviewResource, "/api/products/<int:product_id>/reviews/<int:re
 @app.route("/products/:productId")
 @app.route("/login")
 @app.route("/signup")
-@app.route("products")
-@app.route("companies")
+@app.route("/products")
+@app.route("/companies")
 def index(id=0):
     return render_template("index.html")
 
