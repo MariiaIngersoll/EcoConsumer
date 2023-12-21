@@ -49,14 +49,14 @@ function App() {
         </Routes>
         <div className="footer">
         <div className="social-icons">
-            <a href="#" target="_blank">Facebook</a>
+            {/* <a href="#" target="_blank">Facebook</a>
             <a href="#" target="_blank">Twitter</a>
-            <a href="#" target="_blank">Instagram</a>
+            <a href="#" target="_blank">Instagram</a> */}
         </div>
         <div>
-            <a href="#">About Us</a>
+            {/* <a href="#">About Us</a>
             <a href="#">Contact Us</a>
-            <a href="#">Privacy Policy</a>
+            <a href="#">Privacy Policy</a> */}
         </div>
         <div className="copyright">
             &copy; 2023 Your Website. All rights reserved.
