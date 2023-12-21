@@ -65,6 +65,7 @@ werkzeug = "==2.3.7"
 zipp = "==3.17.0"
 pip = "*"
 install = "*"
+config = "*"
 
 [dev-packages]
 

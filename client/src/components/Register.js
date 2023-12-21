@@ -104,15 +104,15 @@ function Register() {
           onChange={formik.handleChange}
           value={formik.values.password}
         />
-        {formik.errors && (
-          <div className="errors">
-            <ul>
-              {Object.values(formik.errors).map((error, index) => (
-                <h6 key={index}>{error}</h6>
-              ))}
-            </ul>
-          </div>
-        )}
+        {/* {formik.errors && (
+          // <div className="errors">
+          //   <ul>
+          //     {Object.values(formik.errors).map((error, index) => (
+          //       <h6 key={index}>{error}</h6>
+          //     ))}
+          //   </ul>
+          // </div>
+        )} */}
   
         <button type="submit" className="register-button">
           Register
