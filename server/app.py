@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from flask import request, make_response, session, abort
+from flask import request, make_response, session, abort, render_template
 from flask_restful import Resource
 
 from config import app, db, api
@@ -8,14 +8,14 @@ from models import User, Manufacturer, Product, Review
 from flask_restful import Resource
 
 
-@app.route('/')
-def index():
-    response_body = '<h1>Welcome to EcoConsumer!</h1>'
-    response =  make_response(
-        response_body,
-        200
-    )
-    return response
+# @app.route('/')
+# def index():
+#     response_body = '<h1>Welcome to EcoConsumer!</h1>'
+#     response =  make_response(
+#         response_body,
+#         200
+#     )
+#     return response
 
 
 class Signup(Resource):
@@ -195,6 +195,16 @@ class ReviewResource(Resource):
         return response
     
 api.add_resource(ReviewResource, "/api/products/<int:product_id>/reviews/<int:review_id>")
+
+@app.route('/')
+@app.route("/companies/:companyId")
+@app.route("/products/:productId")
+@app.route("/login")
+@app.route("/signup")
+@app.route("products")
+@app.route("companies")
+def index(id=0):
+    return render_template("index.html")
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
