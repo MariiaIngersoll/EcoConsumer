@@ -197,8 +197,8 @@ class ReviewResource(Resource):
 api.add_resource(ReviewResource, "/api/products/<int:product_id>/reviews/<int:review_id>")
 
 @app.route('/')
-@app.route("/companies/:companyId")
-@app.route("/products/:productId")
+@app.route("/companies/<int:companyId>")
+@app.route("/products/<int:productId>")
 @app.route("/login")
 @app.route("/signup")
 @app.route("/products")
